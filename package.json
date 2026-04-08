@@ -1,0 +1,17 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Personal portfolio — vanilla JS, Web Components, modern CSS",
+  "private": true,
+  "scripts": {
+    "dev": "browser-sync start --server --files 'css/*.css' 'js/**/*.js' '*.html' --no-notify --no-open",
+    "typecheck": "tsc --noEmit --project jsconfig.json"
+  },
+  "keywords": [],
+  "author": "giuxtaposition",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^3.0.4",
+    "typescript": "^6.0.2"
+  }
+}

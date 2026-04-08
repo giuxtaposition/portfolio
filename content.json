@@ -1,0 +1,120 @@
+{
+  "meta": {
+    "title": "Giulia Ye — Full Stack Developer",
+    "description": "Portfolio of Giulia Ye, a Full Stack Developer focused on software craftsmanship and building fast, accessible, and well-crafted web experiences.",
+    "author": "Giulia Ye",
+    "themeColor": "#080c14"
+  },
+
+  "header": {
+    "logoLabel": "Go to top",
+    "menuToggleLabel": "Toggle navigation menu",
+    "navLabel": "Main navigation"
+  },
+
+  "nav": [
+    { "label": "About", "href": "#about" },
+    { "label": "Experience", "href": "#experience" },
+    { "label": "Contact", "href": "#contact" }
+  ],
+
+  "hero": {
+    "greeting": "initiating_profile...",
+    "name": "Giulia Ye",
+    "title": "Full Stack Developer",
+    "subtitle": "XP Practitioner · Lifelong Learner",
+    "primaryCta": { "label": "View my experience", "href": "#experience" },
+    "secondaryCta": { "label": "Get in touch", "href": "#contact" }
+  },
+
+  "experience": {
+    "sectionTitle": "Experience",
+    "timelineLabel": "Work experience",
+    "items": [
+      {
+        "role": "Software Developer",
+        "company": "viteSicure",
+        "url": "https://vitesicure.it",
+        "period": "March 2023 — Present",
+        "description": "Software developer at a fast-growing startup, building a cloud-based web application with a focus on clean code and scalable architecture, in close contact with business stakeholders.",
+        "highlights": [
+          "Develop and maintain a cloud-based web application in a fast-paced startup environment using Trunk Based Development for CI/CD.",
+          "Apply Domain-Driven Design and Extreme Programming principles, including regular pair programming, to deliver clean, scalable, and testable code.",
+          "Build and optimize a Node.js backend with TypeScript and NestJS, leveraging Domain-Driven Design for modular and maintainable architecture.",
+          "Leading frontend development on a responsive React application with a strong focus on user experience."
+        ],
+        "tags": ["TypeScript", "React", "NestJs", "Node.js"]
+      },
+      {
+        "role": "Agile Software Developer",
+        "company": "Claranet Italia",
+        "url": "https://claranet.it",
+        "period": "Oct 2021 — Dec 2022",
+        "description": "Delivered clean, maintainable software by applying Extreme Programming practices within agile teams.",
+        "highlights": [
+          "Developed microservices in Rust and frontend interfaces in Elm for an innovative insurtech startup.",
+          "Led frontend development for a cloud-native AWS application for a major publishing company, ensuring scalability and reliability."
+        ],
+        "tags": ["TypeScript", "React", "Node.js", "AWS", "Rust", "Elm"]
+      },
+      {
+        "role": "Analyst Programmer",
+        "company": "Easymarket S.p.A",
+        "url": "https://www.easymarket.travel/it/",
+        "period": "Jan 2020 — July 2020",
+        "description": "Internship focused on learning software development and improving existing B2B and e-commerce platforms.",
+        "highlights": [
+          "Maintained and improved B2B and e-commerce platforms built with Java, Spring Boot, and Vue.js.",
+          "Troubleshot and resolved software bugs, improving overall system reliability and user experience."
+        ],
+        "tags": ["Java", "Spring Boot", "Vue.js", "CSS"]
+      }
+    ]
+  },
+
+  "about": {
+    "sectionTitle": "About Me",
+    "description": "Hello! My name is Giulia, I'm a developer who learns new languages just to contribute to open-source projects I love.",
+    "subtitle": "A few things about me:",
+    "items": [
+      "Currently typing away on a <a href='https://github.com/davidphilipbarr/Sweep?tab=readme-ov-file#sweep'>Sweep Bling LP</a>. If you're curious here's my current <a href='https://github.com/giuxtaposition/zmk-config'>layout</a>.",
+      "Tinkering with the perfect dev setup: living the dream with NixOS and Neovim as I fine-tune my workflow.",
+      "Love running along Rimini's seafront, especially at sunrise.",
+      "Bouldering enthusiast, always up for a challenge."
+    ]
+  },
+
+  "contact": {
+    "sectionTitle": "Get In Touch",
+    "text": "Have an idea? Let's talk.",
+    "socialLabel": "Social links",
+    "socials": [
+      {
+        "label": "Email",
+        "ariaLabel": "Email",
+        "url": "yg97.cs@gmail.com"
+      },
+      {
+        "label": "GitHub",
+        "ariaLabel": "GitHub profile (opens in a new tab)",
+        "url": "https://github.com/giuxtaposition"
+      },
+      {
+        "label": "LinkedIn",
+        "ariaLabel": "LinkedIn profile (opens in a new tab)",
+        "url": "https://www.linkedin.com/in/giulia-ye-6a0004247/"
+      }
+    ]
+  },
+
+  "footer": {
+    "text": "© {{year}} Giulia Ye. All rights reserved."
+  },
+
+  "accessibility": {
+    "skipLink": "Skip to main content",
+    "externalLinkHint": "(opens in a new tab)",
+    "externalLinkIcon": "↗",
+    "tagsLabel": "Technologies used"
+  }
+}
