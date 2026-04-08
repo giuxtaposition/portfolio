@@ -19,6 +19,12 @@ async function init() {
     );
   }
 
+  const spotlight = document.getElementById("spotlight");
+  document.addEventListener("mousemove", (e) => {
+    spotlight?.style.setProperty("--mx", e.clientX + "px");
+    spotlight?.style.setProperty("--my", e.clientY + "px");
+  });
+
   requestAnimationFrame(() => {
     initScrollReveal();
   });

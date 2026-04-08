@@ -166,3 +166,14 @@ body::after {
     transition-duration: 0.01ms !important;
   }
 }
+
+.cursor-spotlight {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    600px circle at var(--mx) var(--my),
+    rgba(29, 78, 116, 0.15),
+    transparent 80%
+  );
+}
