@@ -4,7 +4,7 @@ body {
 
 /* ── Scanline overlay (full-page CRT texture) ── */
 body::after {
-  content: "";
+  content: '';
   position: fixed;
   inset: 0;
   z-index: 9998;
@@ -85,7 +85,7 @@ body::after {
 
 .hud-frame::before,
 .hud-frame::after {
-  content: "";
+  content: '';
   position: absolute;
   width: 16px;
   height: 16px;

@@ -58,8 +58,8 @@ a {
   text-decoration-skip-ink: auto;
 }
 
-ul[role="list"],
-ol[role="list"] {
+ul[role='list'],
+ol[role='list'] {
   list-style: none;
 }
 

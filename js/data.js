@@ -18,6 +18,7 @@
  * @property {string} subtitle
  * @property {CtaItem} primaryCta
  * @property {CtaItem} secondaryCta
+ * @property {string} image
  */
 
 /**
@@ -94,20 +95,19 @@
  */
 
 /** @type {SiteContent | null} */
-let content = null;
+let content = null
 
 /** @returns {Promise<SiteContent>} */
 export async function loadContent() {
-  if (content) return content;
+  if (content) return content
 
-  const response = await fetch("./content.json");
-  content = /** @type {SiteContent} */ (await response.json());
-  return content;
+  const response = await fetch('./content.json')
+  content = /** @type {SiteContent} */ (await response.json())
+  return content
 }
 
 /** @returns {SiteContent} */
 export function getContent() {
-  if (!content)
-    throw new Error("Content not loaded. Call loadContent() first.");
-  return content;
+  if (!content) throw new Error('Content not loaded. Call loadContent() first.')
+  return content
 }

@@ -1,14 +1,14 @@
-import { getContent } from "../data.js";
-import { escapeAttr } from "../utils.js";
-import "./experience-item.js";
+import { getContent } from '../data.js'
+import { escapeAttr } from '../utils.js'
+import './experience-item.js'
 
 class ExperienceList extends HTMLElement {
   connectedCallback() {
-    this.render();
+    this.render()
   }
 
   render() {
-    const { experience } = getContent();
+    const { experience } = getContent()
 
     const items = experience.items
       .map(
@@ -24,16 +24,22 @@ class ExperienceList extends HTMLElement {
             data-tags='${escapeAttr(JSON.stringify(exp.tags))}'
           ></experience-item>`,
       )
-      .join("");
+      .join('')
 
-    this.innerHTML = `
-      <p class="section__label">02 // experience</p>
+    this.innerHTML = /* html */ `
+      <p class="section__label">
+        02 // experience
+      </p>
       <h2 class="section__title">${experience.sectionTitle}</h2>
-      <div class="experience__timeline" role="list" aria-label="${experience.timelineLabel}">
+      <div
+        class="experience__timeline"
+        role="list"
+        aria-label="${experience.timelineLabel}"
+      >
         ${items}
       </div>
-    `;
+    `
   }
 }
 
-customElements.define("experience-list", ExperienceList);
+customElements.define('experience-list', ExperienceList)

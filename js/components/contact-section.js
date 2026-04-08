@@ -1,32 +1,34 @@
-import { getContent } from "../data.js";
+import { getContent } from '../data.js'
 
 class ContactSection extends HTMLElement {
   connectedCallback() {
-    this.render();
+    this.render()
   }
 
   render() {
-    const { contact } = getContent();
+    const { contact } = getContent()
 
     const socialLinks = contact.socials
       .map((social) => {
-        const isEmail = social.url.includes("@");
-        const href = isEmail ? `mailto:${social.url}` : social.url;
+        const isEmail = social.url.includes('@')
+        const href = isEmail ? `mailto:${social.url}` : social.url
         const externalAttrs = isEmail
-          ? ""
-          : 'target="_blank" rel="noopener noreferrer"';
+          ? ''
+          : 'target="_blank" rel="noopener noreferrer"'
 
         return `<a
             href="${href}"
             ${externalAttrs}
             class="contact__social"
             aria-label="${social.ariaLabel}"
-          >[${social.label}]</a>`;
+          >[${social.label}]</a>`
       })
-      .join("");
+      .join('')
 
-    this.innerHTML = `
-      <p class="section__label">03 // contact</p>
+    this.innerHTML = /* html */ `
+      <p class="section__label">
+        03 // contact
+      </p>
       <div class="contact">
         <h2 class="section__title">${contact.sectionTitle}</h2>
         <p class="contact__text">${contact.text}</p>
@@ -34,8 +36,8 @@ class ContactSection extends HTMLElement {
           ${socialLinks}
         </nav>
       </div>
-    `;
+    `
   }
 }
 
-customElements.define("contact-section", ContactSection);
+customElements.define('contact-section', ContactSection)

@@ -5,13 +5,17 @@
   "private": true,
   "scripts": {
     "dev": "browser-sync start --server --files 'css/*.css' 'js/**/*.js' '*.html' --no-notify --no-open",
-    "typecheck": "tsc --noEmit --project jsconfig.json"
+    "typecheck": "tsc --noEmit --project jsconfig.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [],
   "author": "giuxtaposition",
   "license": "ISC",
   "devDependencies": {
     "browser-sync": "^3.0.4",
+    "prettier": "^3.8.1",
+    "prettier-plugin-embed": "^0.5.1",
     "typescript": "^6.0.2"
   }
 }

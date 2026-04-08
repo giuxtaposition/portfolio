@@ -35,10 +35,10 @@
   --space-24: 6rem;
 
   /* ── Typography ── */
-  --font-display: "Orbitron", system-ui, sans-serif;
+  --font-display: 'Orbitron', system-ui, sans-serif;
   --font-sans:
-    "Exo 2", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: "Share Tech Mono", "JetBrains Mono", ui-monospace, monospace;
+    'Exo 2', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Share Tech Mono', 'JetBrains Mono', ui-monospace, monospace;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;

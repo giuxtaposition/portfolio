@@ -24,7 +24,8 @@
     "title": "Full Stack Developer",
     "subtitle": "XP Practitioner · Lifelong Learner",
     "primaryCta": { "label": "View my experience", "href": "#experience" },
-    "secondaryCta": { "label": "Get in touch", "href": "#contact" }
+    "secondaryCta": { "label": "Get in touch", "href": "#contact" },
+    "image": "/assets/photo.jpg"
   },
 
   "experience": {

@@ -1,18 +1,18 @@
-import { getContent } from "../data.js";
+import { getContent } from '../data.js'
 
 class AboutSection extends HTMLElement {
   connectedCallback() {
-    this.render();
+    this.render()
   }
 
   render() {
-    const { about } = getContent();
+    const { about } = getContent()
 
     const items = about.items
       .map((item) => `<li class="about__item">${item}</li>`)
-      .join("");
+      .join('')
 
-    this.innerHTML = `
+    this.innerHTML = /* html */ `
       <p class="section__label">01 // about</p>
       <h2 class="section__title">${about.sectionTitle}</h2>
       <div class="about hud-frame">
@@ -22,8 +22,8 @@ class AboutSection extends HTMLElement {
           ${items}
         </ul>
       </div>
-    `;
+    `
   }
 }
 
-customElements.define("about-section", AboutSection);
+customElements.define('about-section', AboutSection)
