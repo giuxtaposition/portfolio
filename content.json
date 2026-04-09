@@ -25,7 +25,7 @@
     "subtitle": "XP Practitioner · Lifelong Learner",
     "primaryCta": { "label": "View my experience", "href": "#experience" },
     "secondaryCta": { "label": "Get in touch", "href": "#contact" },
-    "image": "/assets/photo.jpg"
+    "image": "assets/photo.jpg"
   },
 
   "experience": {
