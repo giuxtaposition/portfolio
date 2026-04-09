@@ -1,4 +1,5 @@
 import { getContent } from '../data.js'
+import { renderAboutItem } from '../hover-preview.js'
 
 class AboutSection extends HTMLElement {
   connectedCallback() {
@@ -9,7 +10,7 @@ class AboutSection extends HTMLElement {
     const { about } = getContent()
 
     const items = about.items
-      .map((item) => `<li class="about__item">${item}</li>`)
+      .map((item) => `<li class="about__item">${renderAboutItem(item)}</li>`)
       .join('')
 
     this.innerHTML = /* html */ `

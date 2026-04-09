@@ -648,6 +648,133 @@ experience-item:last-child {
   text-shadow: 0 0 8px var(--color-accent-glow);
 }
 
+/* --- Hover Preview Tooltip --- */
+
+.hover-preview {
+  position: relative;
+  display: inline;
+}
+
+.hover-preview__tooltip {
+  position: absolute;
+  bottom: calc(100% + var(--space-3));
+  left: 0;
+  translate: 0 8px;
+  width: clamp(260px, 40vw, 400px);
+
+  visibility: hidden;
+  opacity: 0;
+  scale: 0.96;
+  transition:
+    opacity var(--transition-normal),
+    translate var(--transition-normal),
+    scale var(--transition-normal),
+    visibility 0s var(--transition-normal);
+
+  pointer-events: none;
+  z-index: 10;
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-elevated);
+  overflow: hidden;
+}
+
+.hover-preview:hover .hover-preview__tooltip,
+.hover-preview:focus-within .hover-preview__tooltip {
+  visibility: visible;
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+  transition:
+    opacity var(--transition-normal),
+    translate var(--transition-normal),
+    scale var(--transition-normal),
+    visibility 0s;
+}
+
+/* Corner bracket decorations — matches .hud-frame / .contact */
+.hover-preview__tooltip::before,
+.hover-preview__tooltip::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-color: var(--color-accent);
+  border-style: solid;
+  z-index: 2;
+}
+
+.hover-preview__tooltip::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+.hover-preview__tooltip::after {
+  bottom: -1px;
+  right: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+/* CRT screen — scanlines + vignette container */
+.hover-preview__screen {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 60px rgba(0, 0, 0, 0.4),
+    inset 0 0 10px rgba(0, 255, 0, 0.05);
+}
+
+/* Scanline overlay — matches .hero__image::after */
+.hover-preview__screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.3) 2px,
+    rgba(0, 0, 0, 0.3) 4px
+  );
+  pointer-events: none;
+}
+
+.hover-preview__tooltip img {
+  display: block;
+  width: 100%;
+  height: auto;
+
+  /* Same CRT / holographic filter as hero photo */
+  filter: blur(0.3px) contrast(1.1) saturate(1.3);
+  animation: flicker 0.1s infinite paused;
+}
+
+/* Play flicker only when tooltip is visible */
+.hover-preview:hover .hover-preview__tooltip img,
+.hover-preview:focus-within .hover-preview__tooltip img {
+  animation-play-state: running;
+}
+
+/* Hide on touch devices — hover is required for this interaction */
+@media (hover: none) {
+  .hover-preview__tooltip {
+    display: none;
+  }
+}
+
+/* Reduced motion: no flicker, instant show */
+@media (prefers-reduced-motion: reduce) {
+  .hover-preview__tooltip {
+    transition: none;
+  }
+
+  .hover-preview__tooltip img {
+    animation: none;
+  }
+}
+
 /* --- Contact --- */
 
 .contact {

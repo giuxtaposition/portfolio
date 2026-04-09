@@ -40,11 +40,21 @@
  */
 
 /**
+ * @typedef {Object} PreviewConfig
+ * @property {string} matchText
+ * @property {string} image
+ */
+
+/**
+ * @typedef {string | { text: string, preview?: PreviewConfig }} AboutItem
+ */
+
+/**
  * @typedef {Object} AboutContent
- * @property {string}   sectionTitle
- * @property {string}   description
- * @property {string}   subtitle
- * @property {string[]} items
+ * @property {string}     sectionTitle
+ * @property {string}     description
+ * @property {string}     subtitle
+ * @property {AboutItem[]} items
  */
 
 /**

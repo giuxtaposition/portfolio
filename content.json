@@ -78,7 +78,13 @@
     "description": "Hello! My name is Giulia, I'm a developer who learns new languages just to contribute to open-source projects I love.",
     "subtitle": "A few things about me:",
     "items": [
-      "Currently typing away on a <a href='https://github.com/davidphilipbarr/Sweep?tab=readme-ov-file#sweep'>Sweep Bling LP</a>. If you're curious here's my current <a href='https://github.com/giuxtaposition/zmk-config'>layout</a>.",
+      {
+        "text": "Currently typing away on a <a href='https://splitkb.com/products/aurora-sweep'>Aurora Sweep</a>. If you're curious here's my current <a href='https://github.com/giuxtaposition/qmk_userspace'>layout</a>.",
+        "preview": {
+          "matchText": "Aurora Sweep",
+          "image": "assets/keyboard.jpg"
+        }
+      },
       "Tinkering with the perfect dev setup: living the dream with NixOS and Neovim as I fine-tune my workflow.",
       "Love running along Rimini's seafront, especially at sunrise.",
       "Bouldering enthusiast, always up for a challenge."
