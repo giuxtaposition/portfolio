@@ -6,7 +6,7 @@
 
   --color-text: #c5d1dc;
   --color-text-muted: #7a8a99;
-  --color-text-subtle: #4a5568;
+  --color-text-subtle: #7fa8c9;
 
   --color-accent: #00e5ff;
   --color-accent-mid: #4dd9e8;
@@ -74,4 +74,7 @@
   --transition-fast: 150ms ease-out;
   --transition-normal: 250ms ease-out;
   --transition-slow: 400ms ease-out;
+
+  /* ── Effects ── */
+  --glow-text-shadow: 0 0 8px var(--color-accent-glow-strong);
 }

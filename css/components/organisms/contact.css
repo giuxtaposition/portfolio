@@ -1,0 +1,63 @@
+/* --- Contact --- */
+
+.contact {
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
+/* Frame provided by <hud-panel> (SVG polygon) */
+
+.contact .hud-panel__wrap {
+  padding: var(--space-8);
+}
+
+.contact .hud-panel__body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.contact .section__title::after {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.contact__text {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+}
+
+.contact__links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-top: var(--space-4);
+}
+
+.contact__social {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-normal);
+  color: var(--color-text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-wide);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.contact__social:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-glow-subtle);
+  box-shadow: 0 0 8px var(--color-accent-glow-subtle);
+  text-shadow: var(--glow-text-shadow);
+}

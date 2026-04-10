@@ -11,7 +11,10 @@ class AboutSection extends HTMLElement {
     const { about } = getContent()
 
     const items = about.items
-      .map((item) => `<li class="about__item">${renderAboutItem(item)}</li>`)
+      .map(
+        (item) =>
+          `<li class="about__item hud-list-item">${renderAboutItem(item)}</li>`,
+      )
       .join('')
 
     const panelContent = /* html */ `
@@ -27,6 +30,7 @@ class AboutSection extends HTMLElement {
     this.innerHTML = ''
 
     const panel = document.createElement('hud-panel')
+    panel.setAttribute('variant', 'polygon')
     panel.setAttribute('header-left', about.sectionTitle)
     panel.setAttribute('header-right', 'SYS.01')
     panel.className = 'about'

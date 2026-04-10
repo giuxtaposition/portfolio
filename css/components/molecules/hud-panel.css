@@ -1,0 +1,76 @@
+/* --- HUD Panel --- */
+
+hud-panel {
+  display: block;
+  position: relative;
+}
+
+/* ── Shared ── */
+
+.hud-panel__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--hud-panel-color, var(--color-accent));
+  text-transform: uppercase;
+  letter-spacing: var(--letter-wide);
+  z-index: 2;
+  border-bottom: 1px solid;
+}
+
+.hud-panel__header-title {
+  padding: 0;
+}
+
+.hud-panel__header::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 30px;
+  background-color: currentColor;
+  transform: skewX(-44deg);
+}
+
+.hud-panel__tag {
+  padding: var(--space-1) var(--space-3);
+  margin-left: auto;
+  border: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+  color: var(--hud-panel-color, var(--color-accent));
+}
+
+.hud-panel__body {
+  position: relative;
+  overflow: visible;
+}
+
+/* ── SVG polygon frame (all variants) ── */
+
+.hud-panel__wrap {
+  position: relative;
+  padding: var(--space-6);
+}
+
+.hud-panel__wrap > .hud-panel__header {
+  position: absolute;
+  top: 4%;
+  left: 6%;
+  right: 38%;
+}
+
+.hud-panel__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* ── Polygon variant overrides ── */
+
+hud-panel[variant='polygon'] > .hud-panel__wrap {
+  padding: var(--space-16) var(--space-8) var(--space-10) 6%;
+}

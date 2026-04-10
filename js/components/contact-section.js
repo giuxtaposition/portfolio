@@ -1,4 +1,5 @@
 import { getContent } from '../data.js'
+import './hud-panel.js'
 
 class ContactSection extends HTMLElement {
   connectedCallback() {
@@ -29,13 +30,13 @@ class ContactSection extends HTMLElement {
       <p class="section__label">
         03 // contact
       </p>
-      <div class="contact">
+      <hud-panel class="contact" corner-color="var(--color-accent)">
         <h2 class="section__title">${contact.sectionTitle}</h2>
         <p class="contact__text">${contact.text}</p>
         <nav class="contact__links" aria-label="${contact.socialLabel}">
           ${socialLinks}
         </nav>
-      </div>
+      </hud-panel>
     `
   }
 }

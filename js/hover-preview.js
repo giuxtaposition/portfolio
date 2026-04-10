@@ -18,10 +18,10 @@ export function wrapWithHoverPreview(html, preview) {
   const { matchText, image } = preview
   const escaped = escapeRegExp(matchText)
   const tooltip =
-    '<span class="hover-preview__tooltip" aria-hidden="true">' +
-    '<span class="hover-preview__screen">' +
-    `<img src="${image}" alt="" loading="lazy" />` +
-    '</span></span>'
+    '<hud-panel class="hover-preview__tooltip" corner-color="var(--color-accent)" aria-hidden="true">' +
+    '<span class="hover-preview__screen crt-scanline">' +
+    `<img class="crt-filter" src="${image}" alt="" loading="lazy" />` +
+    '</span></hud-panel>'
 
   const linkPattern = new RegExp(`(<a\\s[^>]*>)(${escaped})(</a>)`)
   if (linkPattern.test(html)) {

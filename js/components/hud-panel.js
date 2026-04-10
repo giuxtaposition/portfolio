@@ -1,7 +1,16 @@
 import { escapeAttr } from '../utils.js'
 
 class HudPanel extends HTMLElement {
-  static SHAPE = Object.freeze([
+  static RECTANGLE_SHAPE = Object.freeze([
+    Object.freeze([0, 0]),
+    Object.freeze([1, 0]),
+    Object.freeze([1, 1]),
+    Object.freeze([0, 1]),
+  ])
+
+  static CORNER_SIZE = 16
+
+  static POLYGON_SHAPE = Object.freeze([
     Object.freeze([0.028, 0.1246]),
     Object.freeze([0.07, 0.0064]),
     Object.freeze([0.6026, 0.0096]),
@@ -17,26 +26,54 @@ class HudPanel extends HTMLElement {
   ])
 
   static get observedAttributes() {
-    return ['header-left', 'header-right', 'color']
+    return ['header-left', 'header-right', 'color', 'variant', 'corner-color']
   }
 
   connectedCallback() {
     /** @type {string} */ this._originalContent = this.innerHTML
     /** @type {number} */ this._prevW = 0
     /** @type {number} */ this._prevH = 0
+    /** @type {number} */ this._rafId = 0
+    /** @type {boolean} */ this._rendering = false
+
+    // Intercept direct assignments to `innerHTML` on this host so callers
+    // who set `el.innerHTML = '...'` after connection will synchronously
+    // update the snapshot and re-render. We keep a mutation observer as a
+    // fallback for other DOM changes.
+    // Observe direct children so content added after connection is preserved.
+    // Use subtree:true and childList to capture a wide range of mutations.
+    this._mo = new MutationObserver((mutations) => {
+      if (this._rendering) return
+      for (const m of mutations) {
+        if (m.type === 'childList') {
+          if (this._rendering) return
+          this._originalContent = this.innerHTML
+          this.render()
+          break
+        }
+      }
+    })
+    this._mo.observe(this, { childList: true, subtree: true })
+
+    // After initial connect and render, check once in the next microtask in
+    // case consumers set innerHTML immediately after append. This ensures
+    // content injected immediately after connection is preserved.
+    Promise.resolve().then(() => {
+      if (this._rendering) return
+      if (this.innerHTML !== this._originalContent) {
+        this._originalContent = this.innerHTML
+        this.render()
+      }
+    })
 
     this.render()
-    this._resizeObserver = new ResizeObserver(() => {
-      const w = this.offsetWidth
-      const h = this.offsetHeight
-      if (w === this._prevW && h === this._prevH) return
-      this.render()
-    })
-    this._resizeObserver.observe(this)
+    this._setupResizeObserver()
   }
 
   disconnectedCallback() {
     this._resizeObserver?.disconnect()
+    this._mo?.disconnect()
+    if (this._rafId) cancelAnimationFrame(this._rafId)
   }
 
   attributeChangedCallback() {
@@ -44,55 +81,136 @@ class HudPanel extends HTMLElement {
     this.render()
   }
 
+  /** @returns {ReadonlyArray<ReadonlyArray<number>>} */
+  _getShape() {
+    return this.getAttribute('variant') === 'polygon'
+      ? HudPanel.POLYGON_SHAPE
+      : HudPanel.RECTANGLE_SHAPE
+  }
+
+  _setupResizeObserver() {
+    this._resizeObserver?.disconnect()
+    this._resizeObserver = undefined
+
+    this._resizeObserver = new ResizeObserver(() => {
+      if (this._rafId) return
+      this._rafId = requestAnimationFrame(() => {
+        this._rafId = 0
+        const w = this.offsetWidth
+        const h = this.offsetHeight
+        if (w === this._prevW && h === this._prevH) return
+        this.render()
+      })
+    })
+    this._resizeObserver.observe(this)
+  }
+
   render() {
+    const color = escapeAttr(this.getAttribute('color') || '#00e5ff')
+    const headerHTML = this._renderHeader()
+    this._renderPolygon(color, headerHTML)
+  }
+
+  /** @returns {string} */
+  _renderHeader() {
+    const headerLeft = this.getAttribute('header-left') || ''
+    const headerRight = this.getAttribute('header-right') || ''
+
+    if (!headerLeft && !headerRight) return ''
+
+    const safeLeft = escapeAttr(headerLeft)
+    const rightTag = headerRight
+      ? `<span class="hud-panel__tag">${escapeAttr(headerRight)}</span>`
+      : ''
+
+    return `<div class="hud-panel__header"><span class="hud-panel__header-title">${safeLeft}</span>${rightTag}</div>`
+  }
+
+  /**
+   * @param {string} color
+   * @param {string} headerHTML
+   */
+  _renderPolygon(color, headerHTML) {
+    const shape = this._getShape()
     const w = this.offsetWidth || 400
     const h = this.offsetHeight || 250
     this._prevW = this.offsetWidth
     this._prevH = this.offsetHeight
 
-    const color = escapeAttr(this.getAttribute('color') || '#00e5ff')
-    const headerLeft = this.getAttribute('header-left') || ''
-    const headerRight = this.getAttribute('header-right') || ''
-
-    const points = HudPanel.SHAPE.map(
-      ([nx, ny]) => `${(nx * w).toFixed(1)},${(ny * h).toFixed(1)}`,
-    ).join(' ')
+    const points = shape
+      .map(([nx, ny]) => `${(nx * w).toFixed(1)},${(ny * h).toFixed(1)}`)
+      .join(' ')
 
     const viewBox = `-1 -1 ${w + 2} ${h + 2}`
+    const cornerHTML = this._renderCorners(w, h)
 
-    /** @type {string} */
-    let headerHTML = ''
-    if (headerLeft || headerRight) {
-      const safeLeft = escapeAttr(headerLeft)
-      const rightTag = headerRight
-        ? `<span class="hud-panel__tag">${escapeAttr(headerRight)}</span>`
-        : ''
-      headerHTML = `<div class="hud-panel__header"><span class="hud-panel__header-title">${safeLeft}</span>${rightTag}</div>`
-    }
-
-    this.innerHTML = /* html */ `
+    this._rendering = true
+    try {
+      this.innerHTML = /* html */ `
       <div class="hud-panel__wrap">
-        <svg
-          class="hud-panel__frame"
-          viewBox="${viewBox}"
-          preserveAspectRatio="none"
-          overflow="visible"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polygon
-            points="${points}"
-            fill="var(--color-hud-panel-bg)"
-            stroke="${color}"
-            stroke-width="1.2"
-          />
-        </svg>
+          <svg
+            class="hud-panel__frame"
+            viewBox="${viewBox}"
+            preserveAspectRatio="none"
+            overflow="visible"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon
+              points="${points}"
+              fill="var(--color-hud-panel-bg)"
+              stroke="${this._cornersEnabled()
+                ? 'var(--color-accent-low)'
+                : color}"
+              stroke-width="1.2"
+            />
+            ${cornerHTML}
+          </svg>
 
-        ${headerHTML}
+          ${headerHTML}
 
-        <div class="hud-panel__body">${this._originalContent}</div>
-      </div>
+          <div class="hud-panel__body">${this._originalContent}</div>
+        </div>
     `
+    } finally {
+      this._rendering = false
+    }
+  }
+
+  /**
+   * @param {number} w
+   * @param {number} h
+   * @returns {string}
+   */
+  _renderCorners(w, h) {
+    const raw = this.getAttribute('corner-color')
+    if (!raw) return ''
+
+    const cornerColor = escapeAttr(raw)
+    const s = HudPanel.CORNER_SIZE
+
+    return `
+          <polyline
+            class="hud-panel__corner"
+            points="0,${s} 0,0 ${s},0"
+            stroke="${cornerColor}"
+            stroke-width="2"
+            fill="none"
+          />
+          <polyline
+            class="hud-panel__corner"
+            points="${w},${h - s} ${w},${h} ${w - s},${h}"
+            stroke="${cornerColor}"
+            stroke-width="2"
+            fill="none"
+          />`
+  }
+
+  _cornersEnabled() {
+    return (
+      this.hasAttribute('corner-color') &&
+      this.getAttribute('corner-color') !== ''
+    )
   }
 }
 
