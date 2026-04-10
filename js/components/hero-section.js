@@ -13,14 +13,8 @@ class HeroSection extends HTMLElement {
       <div class="hero">
         <div class="hero__content">
           <p class="hero__greeting">&gt; ${hero.greeting}</p>
-          <h1 class="hero__name">
-            <span class="hero__name-bracket">&gt;</span>${hero.name}<span
-              class="hero__name-bracket"
-              >&lt;</span
-            >
-          </h1>
+          <h1 class="hero__name">Hi, I'm ${hero.name}</h1>
           <p class="hero__title">${hero.title}</p>
-          <p class="hero__subtitle">// ${hero.subtitle}</p>
           <div class="hero__actions">
             <a href="${hero.primaryCta.href}" class="hero__cta"
               >${hero.primaryCta.label}</a
@@ -31,9 +25,12 @@ class HeroSection extends HTMLElement {
               >${hero.secondaryCta.label}</a
             >
           </div>
+          <p class="hero__subtitle">${hero.subtitle}</p>
         </div>
-        <div class="hero__image">
-          <img src="${hero.image}" alt="my photo" />
+        <div class="hero__image hud-frame">
+          <span class="hero__screen">
+            <img src="${hero.image}" alt="my photo" />
+          </span>
         </div>
       </div>
     `

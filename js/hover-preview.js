@@ -18,7 +18,7 @@ export function wrapWithHoverPreview(html, preview) {
   const { matchText, image } = preview
   const escaped = escapeRegExp(matchText)
   const tooltip =
-    '<span class="hover-preview__tooltip" aria-hidden="true">' +
+    '<span class="hover-preview__tooltip hud-frame" aria-hidden="true">' +
     '<span class="hover-preview__screen">' +
     `<img src="${image}" alt="" loading="lazy" />` +
     '</span></span>'

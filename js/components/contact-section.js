@@ -29,7 +29,7 @@ class ContactSection extends HTMLElement {
       <p class="section__label">
         03 // contact
       </p>
-      <div class="contact">
+      <div class="contact hud-frame">
         <h2 class="section__title">${contact.sectionTitle}</h2>
         <p class="contact__text">${contact.text}</p>
         <nav class="contact__links" aria-label="${contact.socialLabel}">

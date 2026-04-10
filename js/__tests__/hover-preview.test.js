@@ -37,8 +37,8 @@ describe('wrapWithHoverPreview', () => {
     it('should include a tooltip with the preview image', () => {
       const result = wrapWithHoverPreview(LINK_HTML, PREVIEW_CONFIG)
 
-      expect(result).toContain(
-        '<span class="hover-preview__tooltip" aria-hidden="true">',
+      expect(result).toMatch(
+        /<span class="hover-preview__tooltip( hud-frame)?" aria-hidden="true">/,
       )
       expect(result).toContain(
         '<img src="assets/keyboard.jpg" alt="" loading="lazy" />',
@@ -50,7 +50,7 @@ describe('wrapWithHoverPreview', () => {
       const expected =
         '<span class="hover-preview">' +
         "<a href='https://example.com'>Sweep Bling LP</a>" +
-        '<span class="hover-preview__tooltip" aria-hidden="true">' +
+        '<span class="hover-preview__tooltip hud-frame" aria-hidden="true">' +
         '<span class="hover-preview__screen">' +
         '<img src="assets/keyboard.jpg" alt="" loading="lazy" />' +
         '</span>' +
@@ -174,7 +174,7 @@ describe('wrapWithHoverPreview', () => {
       const expected =
         'the <span class="hover-preview">' +
         'seafront' +
-        '<span class="hover-preview__tooltip" aria-hidden="true">' +
+        '<span class="hover-preview__tooltip hud-frame" aria-hidden="true">' +
         '<span class="hover-preview__screen">' +
         '<img src="assets/seafront.jpg" alt="" loading="lazy" />' +
         '</span>' +
