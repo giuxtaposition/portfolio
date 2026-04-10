@@ -3,97 +3,53 @@ import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const ROOT = resolve(import.meta.dirname, '../..')
-const componentsCss = readFileSync(resolve(ROOT, 'css/components.css'), 'utf-8')
-const globalCss = readFileSync(resolve(ROOT, 'css/global.css'), 'utf-8')
+const hudPanelCss = readFileSync(
+  resolve(ROOT, 'css/components/molecules/hud-panel.css'),
+  'utf-8',
+)
 const heroTemplate = readFileSync(
   resolve(ROOT, 'js/components/hero-section.js'),
   'utf-8',
 )
 
-describe('hero__image border frame', () => {
-  describe('border declaration via .hero__image or .hud-frame', () => {
-    it('should have a border referencing var(--color-border) either directly on .hero__image or via .hud-frame', () => {
-      const heroImageRule = extractRule(componentsCss, '.hero__image')
-      const heroImageHasBorder =
-        heroImageRule !== null &&
-        /border\s*:.*var\(--color-border\)/.test(heroImageRule)
+describe('hero__image border frame via <hud-panel>', () => {
+  describe('hud-panel SVG polygon provides frame', () => {
+    it('should have .hud-panel__frame with absolute positioning in hud-panel.css', () => {
+      const frameRule = extractRule(hudPanelCss, '.hud-panel__frame')
 
-      const hudFrameRule = extractRule(globalCss, '.hud-frame')
-      const hudFrameHasBorder =
-        hudFrameRule !== null &&
-        /border\s*:.*var\(--color-border\)/.test(hudFrameRule)
-      const templateUsesHudFrame =
-        /class="[^"]*hero__image[^"]*hud-frame[^"]*"|class="[^"]*hud-frame[^"]*hero__image[^"]*"/.test(
-          heroTemplate,
-        )
-      const borderViaHudFrame = hudFrameHasBorder && templateUsesHudFrame
+      expect(frameRule).not.toBeNull()
+      expect(frameRule).toMatch(/position\s*:\s*absolute/)
+    })
 
-      expect(heroImageHasBorder || borderViaHudFrame).toBe(true)
+    it('should NOT contain .hud-panel--frame (old CSS frame variant)', () => {
+      expect(hudPanelCss).not.toContain('.hud-panel--frame')
     })
   })
 
-  describe('pseudo-element corner bracket styles', () => {
-    it('should have ::before/::after with border-color: var(--color-accent) either directly or via .hud-frame', () => {
-      const heroImagePseudoRules = extractCombinedPseudoRules(
-        componentsCss,
-        '.hero__image',
-      )
-      const heroImageHasPseudos = heroImagePseudoRules.includes(
-        'border-color: var(--color-accent)',
-      )
+  describe('hero template uses <hud-panel>', () => {
+    it('should use <hud-panel> with class hero__image instead of a div with .hud-frame', () => {
+      expect(heroTemplate).toMatch(/<hud-panel\s[^>]*class="[^"]*hero__image/)
+      expect(heroTemplate).not.toContain('hud-frame')
+    })
+  })
 
-      const hudFramePseudoRules = extractCombinedPseudoRules(
-        globalCss,
-        '.hud-frame',
-      )
-      const hudFrameHasPseudos = hudFramePseudoRules.includes(
-        'border-color: var(--color-accent)',
-      )
-      const templateUsesHudFrame =
-        /class="[^"]*hero__image[^"]*hud-frame[^"]*"|class="[^"]*hud-frame[^"]*hero__image[^"]*"/.test(
-          heroTemplate,
-        )
-      const pseudosViaHudFrame = hudFrameHasPseudos && templateUsesHudFrame
+  describe('SVG polygon frame styling', () => {
+    it('should have .hud-panel__frame with inset: 0 for full coverage', () => {
+      const frameRule = extractRule(hudPanelCss, '.hud-panel__frame')
 
-      expect(heroImageHasPseudos || pseudosViaHudFrame).toBe(true)
+      expect(frameRule).toMatch(/inset\s*:\s*0/)
     })
 
-    it('should have ::before/::after with border-style: solid either directly or via .hud-frame', () => {
-      const heroImagePseudoRules = extractCombinedPseudoRules(
-        componentsCss,
-        '.hero__image',
-      )
-      const heroImageHasSolid = heroImagePseudoRules.includes(
-        'border-style: solid',
-      )
+    it('should have .hud-panel__frame with pointer-events: none', () => {
+      const frameRule = extractRule(hudPanelCss, '.hud-panel__frame')
 
-      const hudFramePseudoRules = extractCombinedPseudoRules(
-        globalCss,
-        '.hud-frame',
-      )
-      const hudFrameHasSolid = hudFramePseudoRules.includes(
-        'border-style: solid',
-      )
-      const templateUsesHudFrame =
-        /class="[^"]*hero__image[^"]*hud-frame[^"]*"|class="[^"]*hud-frame[^"]*hero__image[^"]*"/.test(
-          heroTemplate,
-        )
-      const solidViaHudFrame = hudFrameHasSolid && templateUsesHudFrame
-
-      expect(heroImageHasSolid || solidViaHudFrame).toBe(true)
+      expect(frameRule).toMatch(/pointer-events\s*:\s*none/)
     })
   })
 })
 
 // --- Helpers ---
 
-/**
- * Extracts the first CSS rule body for a selector that matches exactly
- * (not pseudo-elements). Returns the content between { } or null.
- * @param {string} source
- * @param {string} selector
- * @returns {string | null}
- */
 function extractRule(source, selector) {
   const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   const pattern = new RegExp(
@@ -102,21 +58,4 @@ function extractRule(source, selector) {
   )
   const matches = [...source.matchAll(pattern)]
   return matches.map((m) => m[1]).join('\n') || null
-}
-
-/**
- * Extracts all rule bodies for selectors containing both the base selector
- * and ::before or ::after. Returns them concatenated.
- * @param {string} source
- * @param {string} selector
- * @returns {string}
- */
-function extractCombinedPseudoRules(source, selector) {
-  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-  const pattern = new RegExp(
-    escaped + '::(?:before|after)[^{]*\\{([^}]*?)\\}',
-    'gs',
-  )
-  const matches = [...source.matchAll(pattern)]
-  return matches.map((m) => m[1]).join('\n')
 }

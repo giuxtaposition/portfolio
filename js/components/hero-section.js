@@ -1,4 +1,5 @@
 import { getContent } from '../data.js'
+import './hud-panel.js'
 
 class HeroSection extends HTMLElement {
   connectedCallback() {
@@ -27,11 +28,11 @@ class HeroSection extends HTMLElement {
           </div>
           <p class="hero__subtitle">${hero.subtitle}</p>
         </div>
-        <div class="hero__image hud-frame">
-          <span class="hero__screen">
-            <img src="${hero.image}" alt="my photo" />
+        <hud-panel class="hero__image" corner-color="var(--color-accent)">
+          <span class="hero__screen crt-scanline">
+            <img class="crt-filter" src="${hero.image}" alt="my photo" />
           </span>
-        </div>
+        </hud-panel>
       </div>
     `
   }

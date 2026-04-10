@@ -37,11 +37,11 @@ describe('wrapWithHoverPreview', () => {
     it('should include a tooltip with the preview image', () => {
       const result = wrapWithHoverPreview(LINK_HTML, PREVIEW_CONFIG)
 
-      expect(result).toMatch(
-        /<span class="hover-preview__tooltip( hud-frame)?" aria-hidden="true">/,
+      expect(result).toContain(
+        '<hud-panel class="hover-preview__tooltip" corner-color="var(--color-accent)" aria-hidden="true">',
       )
       expect(result).toContain(
-        '<img src="assets/keyboard.jpg" alt="" loading="lazy" />',
+        '<img class="crt-filter" src="assets/keyboard.jpg" alt="" loading="lazy" />',
       )
     })
 
@@ -50,11 +50,11 @@ describe('wrapWithHoverPreview', () => {
       const expected =
         '<span class="hover-preview">' +
         "<a href='https://example.com'>Sweep Bling LP</a>" +
-        '<span class="hover-preview__tooltip hud-frame" aria-hidden="true">' +
-        '<span class="hover-preview__screen">' +
-        '<img src="assets/keyboard.jpg" alt="" loading="lazy" />' +
+        '<hud-panel class="hover-preview__tooltip" corner-color="var(--color-accent)" aria-hidden="true">' +
+        '<span class="hover-preview__screen crt-scanline">' +
+        '<img class="crt-filter" src="assets/keyboard.jpg" alt="" loading="lazy" />' +
         '</span>' +
-        '</span>' +
+        '</hud-panel>' +
         '</span>'
 
       const result = wrapWithHoverPreview(html, PREVIEW_CONFIG)
@@ -116,7 +116,7 @@ describe('wrapWithHoverPreview', () => {
 
       expect(result).toContain('<span class="hover-preview">')
       expect(result).toContain(
-        '<img src="assets/tmux-screenshot.png" alt="" loading="lazy" />',
+        '<img class="crt-filter" src="assets/tmux-screenshot.png" alt="" loading="lazy" />',
       )
       expect(result).toContain("<a href='https://tmux.dev'>tmux setup</a>")
     })
@@ -147,7 +147,7 @@ describe('wrapWithHoverPreview', () => {
       expect(result).toContain('<span class="hover-preview">')
       expect(result).toContain('seafront')
       expect(result).toContain(
-        '<img src="assets/seafront.jpg" alt="" loading="lazy" />',
+        '<img class="crt-filter" src="assets/seafront.jpg" alt="" loading="lazy" />',
       )
     })
 
@@ -174,11 +174,11 @@ describe('wrapWithHoverPreview', () => {
       const expected =
         'the <span class="hover-preview">' +
         'seafront' +
-        '<span class="hover-preview__tooltip hud-frame" aria-hidden="true">' +
-        '<span class="hover-preview__screen">' +
-        '<img src="assets/seafront.jpg" alt="" loading="lazy" />' +
+        '<hud-panel class="hover-preview__tooltip" corner-color="var(--color-accent)" aria-hidden="true">' +
+        '<span class="hover-preview__screen crt-scanline">' +
+        '<img class="crt-filter" src="assets/seafront.jpg" alt="" loading="lazy" />' +
         '</span>' +
-        '</span>' +
+        '</hud-panel>' +
         '</span> is great'
 
       const result = wrapWithHoverPreview(html, preview)
@@ -241,7 +241,7 @@ describe('renderAboutItem', () => {
 
       expect(result).toContain('<span class="hover-preview">')
       expect(result).toContain(
-        '<img src="assets/keyboard.jpg" alt="" loading="lazy" />',
+        '<img class="crt-filter" src="assets/keyboard.jpg" alt="" loading="lazy" />',
       )
       expect(result).toContain("<a href='https://kbd.com'>Sweep Bling LP</a>")
     })

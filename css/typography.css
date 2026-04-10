@@ -12,7 +12,6 @@ h4 {
   font-family: var(--font-display);
   font-weight: var(--weight-bold);
   line-height: var(--leading-tight);
-  color: var(--color-text);
   letter-spacing: var(--letter-wide);
 }
 
@@ -41,11 +40,6 @@ h4 {
   }
 }
 
-p {
-  color: var(--color-text);
-  line-height: var(--leading-normal);
-}
-
 small {
   font-size: var(--text-sm);
   color: var(--color-text-subtle);
@@ -67,5 +61,5 @@ a {
 
 a:hover {
   color: var(--color-accent);
-  text-shadow: 0 0 8px var(--color-accent-glow-strong);
+  text-shadow: var(--glow-text-shadow);
 }

@@ -1,0 +1,48 @@
+/* --- About --- */
+
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.about__description {
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+}
+
+.about__subtitle {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-normal);
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-wide);
+}
+
+.about__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Bullet pattern: provided by .hud-list-item in global.css */
+.about__item {
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+}
+
+.about__item a {
+  color: var(--color-accent-mid);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--color-accent-low);
+  font-weight: var(--weight-medium);
+}
+
+.about__item a:hover {
+  color: var(--color-accent);
+  text-decoration-color: var(--color-accent);
+  text-shadow: var(--glow-text-shadow);
+}

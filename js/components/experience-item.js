@@ -22,7 +22,7 @@ class ExperienceItem extends HTMLElement {
     const tags = JSON.parse(this.dataset.tags || '[]')
 
     const highlightItems = highlights
-      .map((h) => `<li class="exp__highlight">${h}</li>`)
+      .map((h) => `<li class="exp__highlight hud-list-item">${h}</li>`)
       .join('')
 
     const tagItems = tags

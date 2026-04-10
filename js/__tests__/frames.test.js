@@ -1,10 +1,22 @@
 import { describe, it, expect } from 'vitest'
-import { readFileSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 const ROOT = resolve(import.meta.dirname, '../..')
 const globalCss = readFileSync(resolve(ROOT, 'css/global.css'), 'utf-8')
-const componentsCss = readFileSync(resolve(ROOT, 'css/components.css'), 'utf-8')
+const hudPanelCss = readFileSync(
+  resolve(ROOT, 'css/components/molecules/hud-panel.css'),
+  'utf-8',
+)
+const componentsDir = resolve(ROOT, 'css/components')
+const componentsCss = ['atoms', 'molecules', 'organisms']
+  .flatMap((sub) => {
+    const dir = resolve(componentsDir, sub)
+    return readdirSync(dir)
+      .filter((f) => f.endsWith('.css'))
+      .map((f) => readFileSync(resolve(dir, f), 'utf-8'))
+  })
+  .join('\n')
 const heroTemplate = readFileSync(
   resolve(ROOT, 'js/components/hero-section.js'),
   'utf-8',
@@ -15,22 +27,30 @@ const contactTemplate = readFileSync(
   'utf-8',
 )
 
-describe('hud-frame utility and duplication removal', () => {
-  it('global.css should define .hud-frame with border referencing var(--color-border)', () => {
-    expect(globalCss).toContain('.hud-frame')
-    const hudRule = extractRule(globalCss, '.hud-frame')
-    expect(hudRule).not.toBeNull()
-    expect(hudRule).toMatch(/border\s*:\s*1px\s+solid\s+var\(--color-border\)/)
+describe('hud-panel SVG polygon and duplication removal', () => {
+  it('hud-panel.css should define .hud-panel__wrap with position: relative', () => {
+    expect(hudPanelCss).toContain('.hud-panel__wrap')
+    const wrapRule = extractRule(hudPanelCss, '.hud-panel__wrap')
+    expect(wrapRule).not.toBeNull()
+    expect(wrapRule).toMatch(/position\s*:\s*relative/)
   })
 
-  it('global.css should define ::before and ::after for .hud-frame with corner bracket styles', () => {
-    expect(globalCss).toContain('.hud-frame::before')
-    expect(globalCss).toContain('.hud-frame::after')
-    expect(globalCss).toContain('border-color: var(--color-accent)')
-    expect(globalCss).toContain('border-style: solid')
+  it('hud-panel.css should define .hud-panel__frame for SVG positioning', () => {
+    expect(hudPanelCss).toContain('.hud-panel__frame')
+    const frameRule = extractRule(hudPanelCss, '.hud-panel__frame')
+    expect(frameRule).not.toBeNull()
+    expect(frameRule).toMatch(/position\s*:\s*absolute/)
   })
 
-  it('components.css should NOT contain duplicate pseudo-element rules for hero, hover-preview, contact', () => {
+  it('hud-panel.css should NOT contain .hud-panel--frame (removed in favor of SVG polygons)', () => {
+    expect(hudPanelCss).not.toContain('.hud-panel--frame')
+  })
+
+  it('global.css should NOT contain .hud-frame (removed in favor of <hud-panel>)', () => {
+    expect(globalCss).not.toContain('.hud-frame')
+  })
+
+  it('components CSS should NOT contain duplicate pseudo-element rules for hero, hover-preview, contact', () => {
     const duplicates = [
       '.hero__image::before',
       '.hero__image::after',
@@ -44,38 +64,35 @@ describe('hud-frame utility and duplication removal', () => {
     })
   })
 
-  it('components using .hud-frame should NOT redundantly re-declare properties already provided by .hud-frame', () => {
-    const contactRule = extractRule(componentsCss, '.contact')
-    expect(contactRule).not.toBeNull()
-    expect(contactRule).not.toMatch(/border\s*:/)
-    expect(contactRule).not.toMatch(/background-color\s*:/)
-    expect(contactRule).not.toMatch(/position\s*:\s*relative/)
-
-    const tooltipRule = extractRule(componentsCss, '.hover-preview__tooltip')
-    expect(tooltipRule).not.toBeNull()
-    expect(tooltipRule).not.toMatch(/border\s*:/)
-    expect(tooltipRule).not.toMatch(/background-color\s*:/)
+  it('components CSS should NOT reference .hud-panel--frame (old frame variant)', () => {
+    expect(componentsCss).not.toContain('.hud-panel--frame')
   })
 
-  it('hover-preview__tooltip should not have overflow:hidden (clips corner brackets at -1px offsets)', () => {
-    const tooltipRule = extractRule(componentsCss, '.hover-preview__tooltip')
-    expect(tooltipRule).not.toMatch(/overflow\s*:\s*hidden/)
-  })
-
-  it('hero-section, hover-preview, and contact templates should use hud-frame class for their frames', () => {
-    // hero__image should include hud-frame
-    expect(heroTemplate).toMatch(
-      /class="[^"]*hero__image[^"]*hud-frame[^"]*"|class="[^"]*hud-frame[^"]*hero__image[^"]*"/,
-    )
-
-    // hover-preview wraps tooltip — verify the class is present or that the hover-preview uses hud-frame
+  it('hero-section, hover-preview, and contact templates should use <hud-panel> instead of .hud-frame', () => {
+    expect(heroTemplate).toMatch(/<hud-panel\s[^>]*class="[^"]*hero__image/)
     expect(hoverPreview).toMatch(
-      /class=\"[^\"]*hover-preview__tooltip[^\"]*hud-frame[^\"]*\"|class=\"[^\"]*hud-frame[^\"]*hover-preview__tooltip[^\"]*\"/,
+      /<hud-panel\s[^>]*class="[^"]*hover-preview__tooltip/,
     )
+    expect(contactTemplate).toMatch(/<hud-panel\s[^>]*class="[^"]*contact/)
+  })
+})
 
-    // contact block should include hud-frame
+describe('hud-panel corner-color attribute in consumer templates', () => {
+  it('should include corner-color on <hud-panel> in hero-section template', () => {
+    expect(heroTemplate).toMatch(
+      /<hud-panel\s[^>]*corner-color="var\(--color-accent\)"/,
+    )
+  })
+
+  it('should include corner-color on <hud-panel> in contact-section template', () => {
     expect(contactTemplate).toMatch(
-      /class="[^"]*contact[^"]*hud-frame[^"]*"|class="[^"]*hud-frame[^"]*contact[^"]*"/,
+      /<hud-panel\s[^>]*corner-color="var\(--color-accent\)"/,
+    )
+  })
+
+  it('should include corner-color on <hud-panel> in hover-preview template', () => {
+    expect(hoverPreview).toMatch(
+      /<hud-panel\s[^>]*corner-color="var\(--color-accent\)"/,
     )
   })
 })
