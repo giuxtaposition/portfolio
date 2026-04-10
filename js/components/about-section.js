@@ -1,5 +1,6 @@
 import { getContent } from '../data.js'
 import { renderAboutItem } from '../hover-preview.js'
+import './hud-panel.js'
 
 class AboutSection extends HTMLElement {
   connectedCallback() {
@@ -13,17 +14,24 @@ class AboutSection extends HTMLElement {
       .map((item) => `<li class="about__item">${renderAboutItem(item)}</li>`)
       .join('')
 
-    this.innerHTML = /* html */ `
-      <p class="section__label">01 // about</p>
-      <h2 class="section__title">${about.sectionTitle}</h2>
-      <div class="about hud-frame">
-        <p class="about__description">${about.description}</p>
-        <p class="about__subtitle">${about.subtitle}</p>
-        <ul class="about__list" role="list">
-          ${items}
-        </ul>
-      </div>
+    const panelContent = /* html */ `
+      <p class="about__description">
+        ${about.description}
+      </p>
+      <p class="about__subtitle">${about.subtitle}</p>
+      <ul class="about__list" role="list">
+        ${items}
+      </ul>
     `
+
+    this.innerHTML = ''
+
+    const panel = document.createElement('hud-panel')
+    panel.setAttribute('header-left', about.sectionTitle)
+    panel.setAttribute('header-right', 'SYS.01')
+    panel.className = 'about'
+    panel.innerHTML = panelContent
+    this.appendChild(panel)
   }
 }
 
