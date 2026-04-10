@@ -1,0 +1,40 @@
+/* --- Contact --- */
+
+.contact {
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
+/* Frame provided by <hud-panel> (SVG polygon) */
+
+.contact .hud-panel__wrap {
+  padding: var(--space-8);
+}
+
+.contact .hud-panel__body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  align-items: center;
+}
+
+.contact .section__title::after {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.contact__text {
+  font-size: var(--text-lg);
+  color: var(--color-text-muted);
+}
+
+.contact__links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-top: var(--space-4);
+}
+
+/* social links: provided by .btn.btn--link.btn--sm atom */

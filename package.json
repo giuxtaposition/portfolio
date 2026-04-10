@@ -3,22 +3,37 @@
   "version": "1.0.0",
   "description": "Personal portfolio — vanilla JS, Web Components, modern CSS",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "browser-sync start --server --files 'css/*.css' 'js/**/*.js' '*.html' --no-notify --no-open",
+    "dev": "browser-sync start --server --files 'src/**/*.css' 'src/**/*.js' '*.html' --no-notify --no-open",
     "typecheck": "tsc --noEmit --project jsconfig.json",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "test": "vitest run"
+    "test": "vitest run --project unit",
+    "test-storybook": "vitest run --project=storybook",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "keywords": [],
   "author": "giuxtaposition",
   "license": "ISC",
   "devDependencies": {
+    "@storybook/addon-docs": "^10.3.5",
+    "@storybook/addon-links": "^10.3.5",
+    "@storybook/addon-vitest": "^10.3.5",
+    "@storybook/web-components": "^10.3.5",
+    "@storybook/web-components-vite": "^10.3.5",
+    "@vitest/browser": "^4.1.4",
+    "@vitest/browser-playwright": "^4.1.4",
     "browser-sync": "^3.0.4",
     "happy-dom": "^20.8.9",
+    "lit-html": "^3.3.2",
+    "playwright": "^1.59.1",
     "prettier": "^3.8.1",
     "prettier-plugin-embed": "^0.5.1",
+    "storybook": "^10.3.5",
     "typescript": "^6.0.2",
+    "vite": "^6",
     "vitest": "^4.1.4"
   }
 }

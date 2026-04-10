@@ -1,0 +1,14 @@
+/* --- HUD List Item --- */
+
+hud-list-item {
+  padding-left: var(--space-6);
+  position: relative;
+  list-style: none;
+}
+
+.hud-list-item__marker {
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-size: var(--text-sm);
+}
