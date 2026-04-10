@@ -30,7 +30,11 @@ class HeroSection extends HTMLElement {
         </div>
         <hud-panel class="hero__image" corner-color="var(--color-accent)">
           <span class="hero__screen crt-scanline">
-            <img class="crt-filter" src="${hero.image}" alt="my photo" />
+            <img
+              class="crt-filter"
+              src="${hero.image}"
+              alt="${hero.imageAlt ?? ''}"
+            />
           </span>
         </hud-panel>
       </div>

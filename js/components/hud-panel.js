@@ -34,6 +34,37 @@ class HudPanel extends HTMLElement {
     /** @type {number} */ this._prevW = 0
     /** @type {number} */ this._prevH = 0
     /** @type {number} */ this._rafId = 0
+    /** @type {boolean} */ this._rendering = false
+
+    // Intercept direct assignments to `innerHTML` on this host so callers
+    // who set `el.innerHTML = '...'` after connection will synchronously
+    // update the snapshot and re-render. We keep a mutation observer as a
+    // fallback for other DOM changes.
+    // Observe direct children so content added after connection is preserved.
+    // Use subtree:true and childList to capture a wide range of mutations.
+    this._mo = new MutationObserver((mutations) => {
+      if (this._rendering) return
+      for (const m of mutations) {
+        if (m.type === 'childList') {
+          if (this._rendering) return
+          this._originalContent = this.innerHTML
+          this.render()
+          break
+        }
+      }
+    })
+    this._mo.observe(this, { childList: true, subtree: true })
+
+    // After initial connect and render, check once in the next microtask in
+    // case consumers set innerHTML immediately after append. This ensures
+    // content injected immediately after connection is preserved.
+    Promise.resolve().then(() => {
+      if (this._rendering) return
+      if (this.innerHTML !== this._originalContent) {
+        this._originalContent = this.innerHTML
+        this.render()
+      }
+    })
 
     this.render()
     this._setupResizeObserver()
@@ -41,12 +72,12 @@ class HudPanel extends HTMLElement {
 
   disconnectedCallback() {
     this._resizeObserver?.disconnect()
+    this._mo?.disconnect()
     if (this._rafId) cancelAnimationFrame(this._rafId)
   }
 
   attributeChangedCallback() {
     if (!this.isConnected) return
-    if (this._originalContent === undefined) return
     this.render()
   }
 
@@ -113,32 +144,37 @@ class HudPanel extends HTMLElement {
     const viewBox = `-1 -1 ${w + 2} ${h + 2}`
     const cornerHTML = this._renderCorners(w, h)
 
-    this.innerHTML = /* html */ `
+    this._rendering = true
+    try {
+      this.innerHTML = /* html */ `
       <div class="hud-panel__wrap">
-        <svg
-          class="hud-panel__frame"
-          viewBox="${viewBox}"
-          preserveAspectRatio="none"
-          overflow="visible"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polygon
-            points="${points}"
-            fill="var(--color-hud-panel-bg)"
-            stroke="${this._cornersEnabled()
-              ? 'var(--color-accent-low)'
-              : color}"
-            stroke-width="1.2"
-          />
-          ${cornerHTML}
-        </svg>
+          <svg
+            class="hud-panel__frame"
+            viewBox="${viewBox}"
+            preserveAspectRatio="none"
+            overflow="visible"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <polygon
+              points="${points}"
+              fill="var(--color-hud-panel-bg)"
+              stroke="${this._cornersEnabled()
+                ? 'var(--color-accent-low)'
+                : color}"
+              stroke-width="1.2"
+            />
+            ${cornerHTML}
+          </svg>
 
-        ${headerHTML}
+          ${headerHTML}
 
-        <div class="hud-panel__body">${this._originalContent}</div>
-      </div>
+          <div class="hud-panel__body">${this._originalContent}</div>
+        </div>
     `
+    } finally {
+      this._rendering = false
+    }
   }
 
   /**

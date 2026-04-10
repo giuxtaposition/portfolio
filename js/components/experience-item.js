@@ -1,4 +1,5 @@
 import { getContent } from '../data.js'
+import { escapeAttr } from '../utils.js'
 
 class ExperienceItem extends HTMLElement {
   connectedCallback() {
@@ -7,7 +8,18 @@ class ExperienceItem extends HTMLElement {
   }
 
   render() {
-    const { accessibility } = getContent()
+    let accessibility = {
+      externalLinkHint: '',
+      externalLinkIcon: '',
+      tagsLabel: '',
+    }
+
+    try {
+      const c = getContent()
+      accessibility = c.accessibility || accessibility
+    } catch (err) {
+      // content may not be loaded in test environments — fall back to safe defaults
+    }
 
     const role = this.dataset.role ?? ''
     const company = this.dataset.company ?? ''
@@ -22,11 +34,13 @@ class ExperienceItem extends HTMLElement {
     const tags = JSON.parse(this.dataset.tags || '[]')
 
     const highlightItems = highlights
-      .map((h) => `<li class="exp__highlight hud-list-item">${h}</li>`)
+      .map(
+        (h) => `<li class="exp__highlight hud-list-item">${escapeAttr(h)}</li>`,
+      )
       .join('')
 
     const tagItems = tags
-      .map((t) => `<span class="exp__tag">${t}</span>`)
+      .map((t) => `<span class="exp__tag">${escapeAttr(t)}</span>`)
       .join('')
 
     this.innerHTML = /* html */ `

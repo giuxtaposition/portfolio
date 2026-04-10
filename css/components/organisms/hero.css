@@ -146,6 +146,7 @@
 
 .hero__image {
   width: 400px;
+  max-width: 100%;
   display: inline-block;
   animation: flicker 0.1s infinite;
 }
@@ -167,8 +168,13 @@
 /* --- Reduced Motion --- */
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__greeting {
+  /* Reduce motion: explicitly disable animations for both greeting and image */
+  .hero__greeting,
+  .hero__image {
     animation: none;
+  }
+
+  .hero__greeting {
     max-width: 100%;
     border-right: none;
   }
