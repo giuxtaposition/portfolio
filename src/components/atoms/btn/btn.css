@@ -1,0 +1,71 @@
+/* --- Button --- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-normal);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: var(--letter-wide);
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.btn--sm {
+  padding: var(--space-2) var(--space-4);
+}
+
+/* Filled — strong call-to-action */
+
+.btn--primary {
+  background: var(--color-accent);
+  color: var(--color-bg);
+  border: 1px solid var(--color-accent);
+}
+
+.btn--primary:hover {
+  background-color: transparent;
+  color: var(--color-accent);
+  box-shadow:
+    0 0 12px var(--color-accent-glow),
+    inset 0 0 12px var(--color-accent-glow-subtle);
+  text-shadow: var(--glow-text-shadow);
+}
+
+/* Outlined — secondary action */
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-accent);
+  border: 1px solid var(--color-border-strong);
+}
+
+.btn--ghost:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-glow-subtle);
+  color: var(--color-accent);
+  box-shadow: 0 0 12px var(--color-accent-glow-subtle);
+  text-shadow: var(--glow-text-shadow);
+}
+
+/* Muted outlined — low-emphasis links (e.g. social links) */
+
+.btn--link {
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.btn--link:hover {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background-color: var(--color-accent-glow-subtle);
+  box-shadow: 0 0 8px var(--color-accent-glow-subtle);
+  text-shadow: var(--glow-text-shadow);
+}

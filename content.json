@@ -21,11 +21,14 @@
   "hero": {
     "greeting": "initiating_profile...",
     "name": "Giulia Ye",
-    "title": "Full Stack Developer",
-    "subtitle": "XP Practitioner · Lifelong Learner",
+    "title": "Full Stack Developer building fast, scalable web apps",
+    "subtitle": "XP Practitioner · Lifelong Learner · Open Source Enthusiast",
     "primaryCta": { "label": "View my experience", "href": "#experience" },
     "secondaryCta": { "label": "Get in touch", "href": "#contact" },
-    "image": "assets/photo.jpg"
+    "image": {
+      "href": "assets/photo.jpg",
+      "alt": "A picture of me drinking shitty coffee in Japan"
+    }
   },
 
   "experience": {

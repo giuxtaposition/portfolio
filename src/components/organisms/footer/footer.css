@@ -1,0 +1,28 @@
+/* --- Footer --- */
+
+/* Circuit-line divider: provided by .circuit-line in global.css */
+
+site-footer {
+  padding-block: var(--space-8);
+  text-align: center;
+  position: relative;
+  background-image: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-accent-low) 20%,
+    var(--color-accent) 50%,
+    var(--color-accent-low) 80%,
+    transparent
+  );
+  background-repeat: no-repeat;
+  background-position: top left;
+  background-size: 100% 1px;
+}
+
+site-footer p {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: var(--letter-wide);
+}
