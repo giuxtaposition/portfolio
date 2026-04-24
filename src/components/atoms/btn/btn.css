@@ -15,6 +15,13 @@
     color var(--transition-fast),
     box-shadow var(--transition-fast),
     border-color var(--transition-fast);
+  width: 100%;
+}
+
+@media (min-width: 48rem) {
+  .btn {
+    width: auto;
+  }
 }
 
 .btn--sm {

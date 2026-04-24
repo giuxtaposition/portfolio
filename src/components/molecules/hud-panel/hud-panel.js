@@ -291,8 +291,17 @@ class HudPanel extends HTMLElement {
     this._prevH = this.offsetHeight
   }
 
-  // ── Helpers ─────────────────────────────────────────────────────────
+  _updateHeaderDecoration() {
+    const decoration = document.querySelector('.hud-panel__header-decorator')
+    if (!decoration) return
 
+    var width = window.innerWidth > 0 ? window.innerWidth : screen.width
+    const angle = -15 + (width - 400) * -0.05
+    const maxAngle = -45
+    decoration.style.transform = `skewX(${angle > maxAngle ? maxAngle : angle}deg)`
+  }
+
+  // ── Helpers ─────────────────────────────────────────────────────────
   /**
    * @param {number} w
    * @param {number} h
@@ -336,6 +345,10 @@ class HudPanel extends HTMLElement {
 
     const header = document.createElement('div')
     header.className = 'hud-panel__header'
+
+    const decorator = document.createElement('span')
+    decorator.className = 'hud-panel__header-decorator'
+    header.appendChild(decorator)
 
     const title = document.createElement('span')
     title.className = 'hud-panel__header-title'
@@ -391,6 +404,7 @@ class HudPanel extends HTMLElement {
         const h = this.offsetHeight
         if (w === this._prevW && h === this._prevH) return
         this._updateGeometry()
+        this._updateHeaderDecoration()
       })
     })
     this._resizeObserver.observe(this)

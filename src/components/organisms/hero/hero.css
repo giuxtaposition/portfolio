@@ -1,11 +1,12 @@
 /* --- Hero --- */
 
 .hero {
-  padding-block: var(--space-16) var(--space-8);
+  padding-block: var(--space-10) var(--space-8);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: var(--space-10);
+  gap: var(--space-8);
+  flex-direction: column-reverse;
 }
 
 .hero__content {
@@ -15,6 +16,16 @@
 }
 
 @media (min-width: 48rem) {
+  .hero {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-10);
+    padding-block: var(--space-16) var(--space-8);
+  }
+}
+
+@media (min-width: 64rem) {
   .hero {
     padding-block: var(--space-24) var(--space-12);
   }
@@ -105,10 +116,18 @@
 /* CRT filter: provided by .crt-filter in global.css */
 
 .hero__image {
-  width: 400px;
-  max-width: 100%;
-  display: inline-block;
+  width: min(100%, 320px);
+  align-self: center;
+  display: block;
   animation: flicker 0.1s infinite;
+}
+
+@media (min-width: 48rem) {
+  .hero__image {
+    width: 400px;
+    flex-shrink: 0;
+    align-self: auto;
+  }
 }
 
 .hero__image .hud-panel__wrap {
