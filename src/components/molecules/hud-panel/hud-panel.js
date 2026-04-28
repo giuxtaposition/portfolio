@@ -38,6 +38,7 @@ class HudPanel extends HTMLElement {
 
     /** @type {boolean} */ this._initialized = true
     this._setupResizeObserver()
+    this._updateHeaderDecoration()
   }
 
   disconnectedCallback() {
@@ -292,13 +293,13 @@ class HudPanel extends HTMLElement {
   }
 
   _updateHeaderDecoration() {
-    const decoration = document.querySelector('.hud-panel__header-decorator')
+    const decoration = this.querySelector('.hud-panel__header-decorator')
     if (!decoration) return
 
-    var width = window.innerWidth > 0 ? window.innerWidth : screen.width
+    const width = window.innerWidth > 0 ? window.innerWidth : screen.width
     const angle = -15 + (width - 400) * -0.05
     const maxAngle = -45
-    decoration.style.transform = `skewX(${angle > maxAngle ? maxAngle : angle}deg)`
+    decoration.style.transform = `skewX(${Math.max(angle, maxAngle)}deg)`
   }
 
   // ── Helpers ─────────────────────────────────────────────────────────
