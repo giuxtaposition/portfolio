@@ -20,7 +20,7 @@ export function wrapWithHoverPreview(html, preview) {
   const tooltip =
     '<hud-panel class="hover-preview__tooltip" corner-color="var(--color-accent)" aria-hidden="true">' +
     '<span class="hover-preview__screen crt-scanline">' +
-    `<img class="crt-filter" src="${image}" alt="" loading="lazy" />` +
+    `<picture><source srcset="${image.replace(/\.jpg$/, '.webp')}" type="image/webp" /><img class="crt-filter" src="${image}" alt="" loading="lazy" width="800" height="602" /></picture>` +
     '</span></hud-panel>'
 
   const linkPattern = new RegExp(`(<a\\s[^>]*>)(${escaped})(</a>)`)

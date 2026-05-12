@@ -119,6 +119,7 @@
   width: min(100%, 320px);
   align-self: center;
   display: block;
+  aspect-ratio: 800 / 1067;
   animation: flicker 0.1s infinite;
 }
 
@@ -127,6 +128,7 @@
     width: 400px;
     flex-shrink: 0;
     align-self: auto;
+    aspect-ratio: 800 / 1067;
   }
 }
 
@@ -138,6 +140,7 @@
   position: relative;
   display: block;
   overflow: hidden;
+  aspect-ratio: 800 / 1067;
   box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.5);
   text-shadow:
     1px 0 rgba(255, 0, 0, 0.6),

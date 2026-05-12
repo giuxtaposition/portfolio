@@ -7,12 +7,14 @@ import('./components/atoms/tech-tag/tech-tag.js')
 async function init() {
   await loadContent()
 
-  await import('./components/organisms/header/app-header.js')
-  await import('./components/organisms/hero/hero-section.js')
-  await import('./components/organisms/experience/experience-list.js')
-  await import('./components/organisms/about/about-section.js')
-  await import('./components/organisms/contact/contact-section.js')
-  await import('./components/organisms/footer/footer.js')
+  await Promise.all([
+    import('./components/organisms/header/app-header.js'),
+    import('./components/organisms/hero/hero-section.js'),
+    import('./components/organisms/experience/experience-list.js'),
+    import('./components/organisms/about/about-section.js'),
+    import('./components/organisms/contact/contact-section.js'),
+    import('./components/organisms/footer/footer.js'),
+  ])
 
   /** @type {HTMLElement | null} */
   const spotlight = document.getElementById('spotlight')

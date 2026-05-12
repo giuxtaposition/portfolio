@@ -20,9 +20,7 @@ class HeroSection extends HTMLElement {
             <a href="${hero.primaryCta.href}" class="btn btn--primary"
               >${hero.primaryCta.label}</a
             >
-            <a
-              href="${hero.secondaryCta.href}"
-              class="btn btn--ghost"
+            <a href="${hero.secondaryCta.href}" class="btn btn--ghost"
               >${hero.secondaryCta.label}</a
             >
           </div>
@@ -30,11 +28,17 @@ class HeroSection extends HTMLElement {
         </div>
         <hud-panel class="hero__image" corner-color="var(--color-accent)">
           <span class="hero__screen crt-scanline">
-            <img
-              class="crt-filter"
-              src="${hero.image.href}"
-              alt="${hero.image.alt ?? ''}"
-            />
+            <picture>
+              <source srcset="${hero.image.href.replace(/\.jpg$/, '.webp')}" type="image/webp" />
+              <img
+                class="crt-filter"
+                src="${hero.image.href}"
+                alt="${hero.image.alt ?? ''}"
+                width="800"
+                height="1067"
+                fetchpriority="high"
+              />
+            </picture>
           </span>
         </hud-panel>
       </div>

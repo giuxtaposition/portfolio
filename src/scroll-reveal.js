@@ -19,6 +19,15 @@ function initScrollReveal() {
     return
   }
 
+  // Pre-mark sections already in the viewport so they don't flash when
+  // js-ready applies the hidden state right before the observer fires.
+  sections.forEach((el) => {
+    const rect = el.getBoundingClientRect()
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add(REVEAL_CLASS)
+    }
+  })
+
   /** @type {IntersectionObserver} */
   const observer = new IntersectionObserver(
     (entries) => {

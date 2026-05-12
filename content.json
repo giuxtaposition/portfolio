@@ -7,7 +7,7 @@
   },
 
   "header": {
-    "logoLabel": "Go to top",
+    "logoLabel": "Giulia Ye, go to top",
     "menuToggleLabel": "Toggle navigation menu",
     "navLabel": "Main navigation"
   },
@@ -56,6 +56,7 @@
         "period": "Oct 2021 — Dec 2022",
         "description": "Delivered clean, maintainable software by applying Extreme Programming practices within agile teams.",
         "highlights": [
+          "Delivered clean, maintainable software by applying Extreme Programming practices within agile teams.",
           "Developed microservices in Rust and frontend interfaces in Elm for an innovative insurtech startup.",
           "Led frontend development for a cloud-native AWS application for a major publishing company, ensuring scalability and reliability."
         ],
