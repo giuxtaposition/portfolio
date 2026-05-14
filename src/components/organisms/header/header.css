@@ -21,6 +21,9 @@
 }
 
 .header__logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
   font-family: var(--font-display);
   font-size: var(--text-lg);
   font-weight: var(--weight-bold);
@@ -28,6 +31,10 @@
   text-decoration: none;
   letter-spacing: var(--letter-wide);
   text-transform: uppercase;
+}
+
+.header__logo-icon {
+  flex-shrink: 0;
 }
 
 .header__logo:hover {

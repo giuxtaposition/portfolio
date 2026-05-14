@@ -22,6 +22,7 @@ class AppHeader extends HTMLElement {
     this.innerHTML = /* html */ `
       <div class="header__inner">
         <a href="#" class="header__logo" aria-label="${header.logoLabel}">
+          <img src="assets/logo-favicon.svg" width="24" height="24" alt="" aria-hidden="true" class="header__logo-icon">
           ${hero.name}<span class="header__logo-dot">.</span>
         </a>
 
